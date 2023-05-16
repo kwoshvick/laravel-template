@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\SupermarketController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,13 @@ Route::prefix('v1')->group(function () {
     Route::put('/supermarket/{supermarket}/update', [SupermarketController::class, 'update']);
 
     Route::delete('/supermarket/{supermarket}/delete', [SupermarketController::class, 'delete']);
+
+    // manager
+    Route::post('/manager/create', [ManagerController::class, 'create']);
+
+    Route::get('/manager/list', [ManagerController::class, 'list']);
+    Route::get('/manager/{manager}/view', [ManagerController::class, 'view']);
+
+    Route::put('/manager/{manager}/update', [ManagerController::class, 'update']);
 
 });

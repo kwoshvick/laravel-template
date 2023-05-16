@@ -1,50 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
-use App\Models\Supermarket;
+use App\Models\Manager;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Database\Eloquent\Model;
 
 class ManagerService
 {
-    private Supermarket $supermarket;
+    private Manager $manager;
 
-    public function __construct(Supermarket $supermarket)
+    public function __construct(Manager $manager)
     {
-        $this->supermarket = $supermarket;
+        $this->manager = $manager;
     }
 
-    public function store(array $supermarketAttributes): Supermarket
+    public function store(array $managerAttributes): Manager
     {
-        $supermarket = $this->supermarket->newInstance();
-        $supermarket->fill($supermarketAttributes)->save();
+        $manager = $this->manager->newInstance();
+        $manager->fill($managerAttributes)->save();
 
-        return $supermarket;
+        return $manager;
     }
 
-    public function view(Supermarket $supermarket): Supermarket
+    public function view(Manager $manager): Builder|array|Collection|Model
     {
-        return $supermarket;
-
+        return Manager::query()
+            ->with('supermarket')
+            ->findOrFail($manager->id);
     }
 
-    public function list(): Collection|array
+    public function list(): Collection
     {
-        return QueryBuilder::for(Supermarket::class)
-            ->allowedFilters([
-                'name',
-                'location',
-            ])
-            ->defaultSort('name')
-            ->get();
+        return Manager::with('supermarket')->get();
     }
 
-    public function update(array $supermarketAttributes, Supermarket $supermarket): Supermarket
+    public function update(array $managerAttributes, Manager $manager): Manager
     {
-        $supermarket->update($supermarketAttributes);
+        $manager->update($managerAttributes);
 
-        return $supermarket;
+        return $manager;
     }
-
 }
