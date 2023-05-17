@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\SupermarketController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,5 +35,10 @@ Route::prefix('v1')->group(function () {
     Route::get('/manager/{manager}/view', [ManagerController::class, 'view']);
 
     Route::put('/manager/{manager}/update', [ManagerController::class, 'update']);
+
+    // supplier
+    Route::post('/supplier/create', [SupplierController::class, 'create']);
+
+    Route::get('/supplier/list', [SupplierController::class, 'list']);
 
 });
